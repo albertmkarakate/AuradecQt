@@ -15,6 +15,8 @@ class CurrentTrackInfo : public QObject {
     Q_PROPERTY(int     year       READ year       NOTIFY changed)
     Q_PROPERTY(QString genre      READ genre      NOTIFY changed)
     Q_PROPERTY(int     playCount    READ playCount    NOTIFY changed)
+    Q_PROPERTY(QString composer     READ composer     NOTIFY changed)
+    Q_PROPERTY(int     rating       READ rating       NOTIFY changed)
     Q_PROPERTY(QString lyrics       READ lyrics       NOTIFY lyricsChanged)
     Q_PROPERTY(QString syncedLyrics READ syncedLyrics NOTIFY lyricsChanged)
 
@@ -32,6 +34,8 @@ public:
     int     year()       const { return m_year; }
     QString genre()      const { return m_genre; }
     int     playCount()  const { return m_playCount; }
+    QString composer()   const { return m_composer; }
+    int     rating()     const { return m_rating; }
     QString lyrics()      const { return m_lyrics; }
     QString syncedLyrics() const { return m_syncedLyrics; }
 
@@ -57,6 +61,8 @@ private:
     int     m_year       = 0;
     QString m_genre;
     int     m_playCount  = 0;
+    QString m_composer;
+    int     m_rating     = 0;
     QString m_lyrics;
     QString m_syncedLyrics;
 };

@@ -303,8 +303,10 @@ Rectangle {
                             volBar.dragFrac = Math.max(0, Math.min(mouseX / width, 1))
                         }
                         onPositionChanged: {
-                            if (pressed)
+                            if (pressed) {
                                 volBar.dragFrac = Math.max(0, Math.min(mouseX / width, 1))
+                                audioEngine.setVolume(volBar.dragFrac)
+                            }
                         }
                         onReleased: {
                             audioEngine.setVolume(volBar.dragFrac)

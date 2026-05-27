@@ -16,6 +16,7 @@ Item {
     property int    bitrate:    0
     property int    duration:   0
     property int    playCount:  0
+    property int    rating:     0
     property bool   hasArtwork: false
     property bool   playing:    false
 
@@ -130,6 +131,20 @@ Item {
                 Layout.alignment: Qt.AlignVCenter
                 width: 36
                 horizontalAlignment: Text.AlignRight
+            }
+
+            // Rating dots (0–5)
+            Row {
+                spacing: 2
+                Layout.alignment: Qt.AlignVCenter
+                visible: root.rating > 0
+                Repeater {
+                    model: 5
+                    delegate: Rectangle {
+                        width: 6; height: 6; radius: 3
+                        color: index < root.rating ? "#FF5C1A" : Qt.rgba(255/255,92/255,26/255,0.18)
+                    }
+                }
             }
 
             // Duration

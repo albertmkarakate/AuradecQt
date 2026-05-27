@@ -26,22 +26,12 @@ Item {
     property int    drillArtworkId: -1
 
     function drillInto(label, artist, album) {
-        drillLabel    = label
-        drillIsAlbum  = album !== ""
-        drillArtist   = artist
-        drillAlbum    = album
-        drillArtworkId = -1
-        libraryTab    = 0
-        searchText    = ""
+        drillLabel = label; drillIsAlbum = album !== ""; drillArtist = artist; drillAlbum = album; drillArtworkId = -1; libraryTab = 0; searchText = ""
         if (artist !== "") libraryModel.setArtistFilter(artist)
         else               libraryModel.setAlbumFilter(album)
     }
     function drillBack() {
-        drillLabel    = ""
-        drillArtist   = ""
-        drillAlbum    = ""
-        drillArtworkId = -1
-        searchText    = ""
+        drillLabel = ""; drillArtist = ""; drillAlbum = ""; drillArtworkId = -1; searchText = ""
         libraryModel.clearFilters()
     }
     function applySort(col) {
@@ -383,6 +373,7 @@ Item {
                     trackId:    model.trackId
                     hasArtwork: model.hasArtwork
                     path:       model.path
+                    rating:     model.rating || 0
                     playing:    root.currentTrackId === model.trackId
                     onPlayRequested:            (p, id) => root.playTrack(p, id)
                     onPlayNextRequested:        (p, id) => root.playNext(p, id)
@@ -415,6 +406,7 @@ Item {
                 bitrate:    model.bitrate
                 duration:   model.duration
                 playCount:  model.playCount
+                rating:     model.rating || 0
                 trackId:    model.trackId
                 hasArtwork: model.hasArtwork
                 path:       model.path
@@ -496,5 +488,4 @@ Item {
             }
         }
     }
-    ScanProgressToast { anchors.fill: parent }
 }

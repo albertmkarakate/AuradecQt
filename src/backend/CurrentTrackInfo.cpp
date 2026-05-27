@@ -19,6 +19,8 @@ void CurrentTrackInfo::setTrack(const QVariantMap &t) {
     m_year       = t.value("year", 0).toInt();
     m_genre      = t.value("genre").toString();
     m_playCount  = t.value("playCount", 0).toInt();
+    m_composer   = t.value("composer").toString();
+    m_rating     = t.value("rating", 0).toInt();
 
     // Load lyrics from DB cache (JSON {"plain":"...","synced":"..."} or plain text)
     QString dbLyrics = t.value("lyrics").toString();
@@ -60,7 +62,7 @@ void CurrentTrackInfo::clearLyrics() {
 void CurrentTrackInfo::clear() {
     m_id = -1; m_title.clear(); m_artist.clear(); m_album.clear();
     m_codec.clear(); m_bitrate = 0; m_sampleRate = 0; m_hasArtwork = false;
-    m_year = 0; m_genre.clear(); m_playCount = 0;
+    m_year = 0; m_genre.clear(); m_playCount = 0; m_composer.clear(); m_rating = 0;
     m_lyrics.clear(); m_syncedLyrics.clear();
     emit changed();
     emit lyricsChanged();

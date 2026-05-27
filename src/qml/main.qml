@@ -115,6 +115,15 @@ ApplicationWindow {
         queue = newQ
     }
 
+    function playQueueAt(idx) {
+        if (idx < 0 || idx >= queue.length) return
+        queueIndex = idx
+        var t = queue[idx]
+        trackDb.incrementPlayCount(t.id)
+        currentTrack.setTrack(trackDb.trackById(t.id))
+        audioEngine.play(t.path)
+    }
+
     function playPrev() {
         if (queue.length === 0 || queueIndex < 0) return
         if (audioEngine.position > 3000) {
@@ -201,6 +210,7 @@ ApplicationWindow {
                     upNextQueue: window.queue
                     upNextIndex: window.queueIndex
                     onQueueRemoveAt: (idx) => window.removeFromQueue(idx)
+                    onQueuePlayAt:   (idx) => window.playQueueAt(idx)
                 }
 
                 SettingsView {
@@ -433,5 +443,11 @@ ApplicationWindow {
                 currentTrack.setTrack(trackDb.trackById(trackEditor.trackId))
             }
         }
+    }
+
+    ScanProgressToast {
+        parent: window.contentItem
+        anchors.fill: parent
+        z: 180
     }
 }

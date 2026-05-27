@@ -39,13 +39,8 @@ Item {
                     anchors.top: parent.top; anchors.margins: 20
                     spacing: 0
 
-                    Text {
-                        text: "LIBRARY"
-                        font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
-                        font.letterSpacing: 1.5
-                        color: Qt.rgba(236/255,229/255,216/255,0.35)
-                        bottomPadding: 16
-                    }
+                    Text { text: "LIBRARY"; font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
+                           font.letterSpacing: 1.5; color: Qt.rgba(236/255,229/255,216/255,0.35); bottomPadding: 16 }
 
                     SRow { lbl: "Stats"; sub: libraryModel.count + " tracks · " + artistModel.count + " artists · " + albumModel.count + " albums" }
                     SRow { lbl: "Database"; sub: trackDb.databasePath() }
@@ -188,13 +183,8 @@ Item {
                     anchors.top: parent.top; anchors.margins: 20
                     spacing: 0
 
-                    Text {
-                        text: "PLAYBACK"
-                        font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
-                        font.letterSpacing: 1.5
-                        color: Qt.rgba(236/255,229/255,216/255,0.35)
-                        bottomPadding: 16
-                    }
+                    Text { text: "PLAYBACK"; font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
+                           font.letterSpacing: 1.5; color: Qt.rgba(236/255,229/255,216/255,0.35); bottomPadding: 16 }
 
                     SRow { lbl: "Volume"; sub: Math.round(audioEngine.volume * 100) + "% — adjust with slider in player bar" }
                     SRow { lbl: "Audio backend"; sub: "Qt6 Multimedia · FFmpeg " }
@@ -213,13 +203,8 @@ Item {
                     anchors.top: parent.top; anchors.margins: 20
                     spacing: 0
 
-                    Text {
-                        text: "LYRICS"
-                        font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
-                        font.letterSpacing: 1.5
-                        color: Qt.rgba(236/255,229/255,216/255,0.35)
-                        bottomPadding: 16
-                    }
+                    Text { text: "LYRICS"; font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
+                           font.letterSpacing: 1.5; color: Qt.rgba(236/255,229/255,216/255,0.35); bottomPadding: 16 }
 
                     Item {
                         width: parent.width; height: 52
@@ -402,6 +387,47 @@ Item {
                 }
             }
 
+            // Keyboard shortcuts
+            Rectangle {
+                width: parent.width; radius: 16
+                color: "#0E0B13"; border.color: Qt.rgba(1,1,1,0.06)
+                height: kbCol.implicitHeight + 32
+
+                Column {
+                    id: kbCol
+                    anchors.left: parent.left; anchors.right: parent.right
+                    anchors.top: parent.top; anchors.margins: 20
+                    spacing: 0
+
+                    Text { text: "KEYBOARD SHORTCUTS"; font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
+                           font.letterSpacing: 1.5; color: Qt.rgba(236/255,229/255,216/255,0.35); bottomPadding: 16 }
+
+                    Repeater {
+                        model: [
+                            { key: "Space",        action: "Play / Pause" },
+                            { key: "← / →",        action: "Seek –5s / +5s" },
+                            { key: "Ctrl+↑/↓",     action: "Volume ±5%" },
+                            { key: "Ctrl+N",        action: "Next track" },
+                            { key: "Ctrl+P",        action: "Previous track" },
+                            { key: "Ctrl+E",        action: "Edit current track" },
+                            { key: "Media Keys",    action: "Play · Next · Prev" },
+                        ]
+                        delegate: Item {
+                            width: kbCol.width; height: 36
+                            Rectangle { anchors.bottom: parent.bottom; anchors.left: parent.left; anchors.right: parent.right; height: 1; color: Qt.rgba(1,1,1,0.04) }
+                            Rectangle {
+                                anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter
+                                height: 22; width: kbLbl.implicitWidth + 14; radius: 5
+                                color: Qt.rgba(255/255,92/255,26/255,0.08); border.color: Qt.rgba(255/255,92/255,26/255,0.18)
+                                Text { id: kbLbl; anchors.centerIn: parent; text: modelData.key; font.family: "JetBrains Mono"; font.pixelSize: 10; color: "#FF5C1A" }
+                            }
+                            Text { anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter; text: modelData.action; font.family: "Barlow"; font.pixelSize: 12; color: Qt.rgba(236/255,229/255,216/255,0.55) }
+                        }
+                    }
+                }
+            }
+
+            // About
             Rectangle {
                 width: parent.width; radius: 16
                 color: "#0E0B13"; border.color: Qt.rgba(1,1,1,0.06)
@@ -413,16 +439,12 @@ Item {
                     anchors.top: parent.top; anchors.margins: 20
                     spacing: 0
 
-                    Text {
-                        text: "ABOUT"
-                        font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
-                        font.letterSpacing: 1.5
-                        color: Qt.rgba(236/255,229/255,216/255,0.35)
-                        bottomPadding: 16
-                    }
+                    Text { text: "ABOUT"; font.family: "Barlow"; font.pixelSize: 10; font.weight: Font.Bold
+                           font.letterSpacing: 1.5; color: Qt.rgba(236/255,229/255,216/255,0.35); bottomPadding: 16 }
 
                     SRow { lbl: "Auradec"; sub: "Native desktop music player · v1.0.0" }
                     SRow { lbl: "Stack"; sub: "C++ · Qt6 · QML · SQLite · TagLib · FFmpeg" }
+                    SRow { lbl: "License"; sub: "MIT — open source" }
                 }
             }
         }
@@ -448,53 +470,19 @@ Item {
     }
 
     component SRow: Item {
-        property string lbl: ""
-        property string sub: ""
-        property string btn: ""
+        property string lbl: ""; property string sub: ""; property string btn: ""
         signal btnClicked()
-
         width: parent.width; height: 52
-
+        Rectangle { anchors.bottom: parent.bottom; anchors.left: parent.left; anchors.right: parent.right; height: 1; color: Qt.rgba(1,1,1,0.05) }
+        Text { anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter; text: lbl; font.family: "Barlow"; font.pixelSize: 14; color: "#ECE5D8" }
+        Text { anchors.centerIn: parent; text: sub; font.family: "Barlow"; font.pixelSize: 12; color: Qt.rgba(236/255,229/255,216/255,0.38); visible: btn === "" }
         Rectangle {
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left; anchors.right: parent.right
-            height: 1; color: Qt.rgba(1,1,1,0.05)
-        }
-
-        Text {
-            anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter
-            text: lbl
-            font.family: "Barlow"; font.pixelSize: 14
-            color: "#ECE5D8"
-        }
-
-        Text {
-            anchors.centerIn: parent
-            text: sub
-            font.family: "Barlow"; font.pixelSize: 12
-            color: Qt.rgba(236/255,229/255,216/255,0.38)
-            visible: btn === ""
-        }
-
-        Rectangle {
-            anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter
-            visible: btn !== ""
+            anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter; visible: btn !== ""
             height: 28; width: btnTxt.implicitWidth + 20; radius: 14
             color: btnMa.containsMouse ? Qt.rgba(255/255,92/255,26/255,0.20) : Qt.rgba(255/255,92/255,26/255,0.10)
             border.color: Qt.rgba(255/255,92/255,26/255,0.30)
-
-            Text {
-                id: btnTxt
-                anchors.centerIn: parent
-                text: btn
-                font.family: "Barlow"; font.pixelSize: 12; color: "#FF5C1A"
-            }
-
-            MouseArea {
-                id: btnMa; anchors.fill: parent
-                hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                onClicked: parent.parent.parent.btnClicked()
-            }
+            Text { id: btnTxt; anchors.centerIn: parent; text: btn; font.family: "Barlow"; font.pixelSize: 12; color: "#FF5C1A" }
+            MouseArea { id: btnMa; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: parent.parent.parent.btnClicked() }
         }
     }
 }

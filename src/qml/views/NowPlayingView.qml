@@ -16,6 +16,7 @@ Item {
     property var    upNextQueue:  []
     property int    upNextIndex:  -1
     signal queueRemoveAt(int absoluteIndex)
+    signal queuePlayAt(int absoluteIndex)
     property bool   isFav:      currentTrack.id > 0 && trackDb.isFavorite(currentTrack.id)
     property bool   showLyrics:    false
     property string lyricsSource:  ""
@@ -200,23 +201,19 @@ Item {
                 }
             }
 
-            // Sample rate detail
             Rectangle {
-                width: parent.width; height: 52; radius: 16
-                color: "#0E0B13"; border.color: Qt.rgba(1,1,1,0.06)
+                width: parent.width; height: 52; radius: 16; color: "#0E0B13"; border.color: Qt.rgba(1,1,1,0.06)
                 Row {
                     anchors.centerIn: parent; spacing: 32
                     Repeater {
                         model: [
                             { k: "Sample Rate", v: root.sampleRate > 0 ? (root.sampleRate/1000).toFixed(1) + " kHz" : "—" },
-                            { k: "Album",       v: root.album || "—" },
+                            { k: "Album", v: root.album || "—" },
                         ]
                         delegate: Column {
                             spacing: 2; anchors.verticalCenter: parent.verticalCenter
-                            Text { text: modelData.k; font.family: "Barlow"; font.pixelSize: 9
-                                   font.letterSpacing: 1; color: Qt.rgba(236/255,229/255,216/255,0.30) }
-                            Text { text: modelData.v; font.family: "JetBrains Mono"; font.pixelSize: 12
-                                   color: "#ECE5D8"; elide: Text.ElideRight; width: 140 }
+                            Text { text: modelData.k; font.family: "Barlow"; font.pixelSize: 9; font.letterSpacing: 1; color: Qt.rgba(236/255,229/255,216/255,0.30) }
+                            Text { text: modelData.v; font.family: "JetBrains Mono"; font.pixelSize: 12; color: "#ECE5D8"; elide: Text.ElideRight; width: 140 }
                         }
                     }
                 }
@@ -261,6 +258,15 @@ Item {
                                 bottomPadding: 12
                             }
 
+                            // Rating row
+                            Item {
+                                width: parent.width; height: 36; visible: currentTrack.rating > 0
+                                Text { text: "Rating"; font.family: "Barlow"; font.pixelSize: 12; color: Qt.rgba(236/255,229/255,216/255,0.40); anchors.verticalCenter: parent.verticalCenter; width: 100 }
+                                Row { anchors.left: parent.left; anchors.leftMargin: 100; anchors.verticalCenter: parent.verticalCenter; spacing: 4
+                                    Repeater { model: 5; delegate: Rectangle { width: 10; height: 10; radius: 5; color: index < currentTrack.rating ? "#FF5C1A" : Qt.rgba(255/255,92/255,26/255,0.15) } }
+                                }
+                            }
+
                             Repeater {
                                 model: [
                                     {k:"Format",      v: root.codec      || "—"},
@@ -269,6 +275,7 @@ Item {
                                     {k:"Album",       v: root.album      || "—"},
                                     {k:"Year",        v: currentTrack.year > 0 ? currentTrack.year : "—"},
                                     {k:"Genre",       v: currentTrack.genre || "—"},
+                                    {k:"Composer",    v: currentTrack.composer || "—"},
                                 ]
                                 delegate: RowLayout {
                                     width: parent.width
@@ -384,7 +391,8 @@ Item {
 
                                     Column {
                                         anchors.verticalCenter: parent.verticalCenter
-                                        spacing: 2; width: parent.width - 50
+                                        spacing: 2
+                                        width: parent.width - 50 - (qMa.containsMouse ? 26 : 0)
 
                                         Text {
                                             width: parent.width
@@ -399,12 +407,24 @@ Item {
                                             color: Qt.rgba(236/255,229/255,216/255,0.45); elide: Text.ElideRight
                                         }
                                     }
+
+                                    Rectangle {
+                                        width: 20; height: 20; radius: 10
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        color: removeMa.containsMouse ? Qt.rgba(255/255,77/255,106/255,0.20) : Qt.rgba(1,1,1,0.06)
+                                        visible: qMa.containsMouse || removeMa.containsMouse
+                                        Text { anchors.centerIn: parent; text: "✕"; font.pixelSize: 9; color: "#FF4D6A" }
+                                        MouseArea {
+                                            id: removeMa; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
+                                            onClicked: root.queueRemoveAt(root.upNextIndex + 1 + index)
+                                        }
+                                    }
                                 }
 
                                 MouseArea {
                                     id: qMa; anchors.fill: parent
                                     hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                                    onClicked: root.queueRemoveAt(root.upNextIndex + 1 + index)
+                                    onClicked: root.queuePlayAt(root.upNextIndex + 1 + index)
                                 }
                             }
 

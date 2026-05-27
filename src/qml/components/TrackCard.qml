@@ -13,6 +13,7 @@ Item {
     property bool   hasArtwork: false
     property int    trackId:  -1
     property string path:     ""
+    property int    rating:   0
 
     signal playRequested(string path, int id)
     signal playNextRequested(string path, int id)
@@ -113,19 +114,38 @@ Item {
                 elide: Text.ElideRight
             }
 
-            Rectangle {
-                height: 18; width: codecLabel.implicitWidth + 10
-                radius: 4
-                color: Qt.rgba(255/255,92/255,26/255,0.12)
-                visible: root.codec !== ""
+            Row {
+                spacing: 8
+                width: parent.width
 
-                Text {
-                    id: codecLabel
-                    anchors.centerIn: parent
-                    text: root.codec
-                    font.family: "JetBrains Mono"
-                    font.pixelSize: 9
-                    color: "#FF5C1A"
+                Rectangle {
+                    height: 18; width: codecLabel.implicitWidth + 10
+                    radius: 4
+                    color: Qt.rgba(255/255,92/255,26/255,0.12)
+                    visible: root.codec !== ""
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    Text {
+                        id: codecLabel
+                        anchors.centerIn: parent
+                        text: root.codec
+                        font.family: "JetBrains Mono"
+                        font.pixelSize: 9
+                        color: "#FF5C1A"
+                    }
+                }
+
+                Row {
+                    spacing: 3
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: root.rating > 0
+                    Repeater {
+                        model: 5
+                        delegate: Rectangle {
+                            width: 7; height: 7; radius: 3.5
+                            color: index < root.rating ? "#FF5C1A" : Qt.rgba(255/255,92/255,26/255,0.18)
+                        }
+                    }
                 }
             }
         }
