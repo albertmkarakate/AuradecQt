@@ -79,6 +79,7 @@ qt_add_qml_module(auradec
         src/qml/components/ArtworkSection.qml
         src/qml/components/ScanProgressToast.qml
         src/qml/components/ArtistInfoPanel.qml
+        src/qml/components/GradientPlaceholder.qml
         src/qml/views/LibraryView.qml
         src/qml/views/NowPlayingView.qml
         src/qml/views/SettingsView.qml
