@@ -1,0 +1,17 @@
+module AuradecApp.components
+singleton AuradecTheme 1.0 AuradecTheme.qml
+AuradecLogo 1.0 AuradecLogo.qml
+NavItem 1.0 NavItem.qml
+SubNavItem 1.0 SubNavItem.qml
+TrackCard 1.0 TrackCard.qml
+TrackListItem 1.0 TrackListItem.qml
+ArtworkImage 1.0 ArtworkImage.qml
+IconButton 1.0 IconButton.qml
+ArtistCard 1.0 ArtistCard.qml
+AlbumCard 1.0 AlbumCard.qml
+LyricsPanel 1.0 LyricsPanel.qml
+TrackContextMenu 1.0 TrackContextMenu.qml
+MetadataSection 1.0 MetadataSection.qml
+LyricsSection 1.0 LyricsSection.qml
+ArtworkSection 1.0 ArtworkSection.qml
+ArtistInfoPanel 1.0 ArtistInfoPanel.qml
