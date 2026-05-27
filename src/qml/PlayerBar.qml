@@ -217,9 +217,24 @@ Rectangle {
                 }
 
                 Text {
-                    text: formatMs(audioEngine.duration)
+                    id: durationText
+                    property bool showRemaining: false
+                    text: {
+                        if (audioEngine.duration <= 0) return "0:00"
+                        if (showRemaining) {
+                            var rem = audioEngine.duration - audioEngine.position
+                            return "-" + formatMs(Math.max(0, rem))
+                        }
+                        return formatMs(audioEngine.duration)
+                    }
                     font.family: "JetBrains Mono"; font.pixelSize: 11
-                    color: Qt.rgba(236/255,229/255,216/255,0.50)
+                    color: showRemaining
+                           ? Qt.rgba(255/255,92/255,26/255,0.70)
+                           : Qt.rgba(236/255,229/255,216/255,0.50)
+                    MouseArea {
+                        anchors.fill: parent; cursorShape: Qt.PointingHandCursor
+                        onClicked: durationText.showRemaining = !durationText.showRemaining
+                    }
                 }
             }
         }
