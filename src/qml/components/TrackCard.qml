@@ -42,20 +42,18 @@ Item {
             color: "#1a1520"
             clip: true
 
+            GradientPlaceholder {
+                anchors.fill: parent; radius: 12
+                seed: root.title; showNote: true
+                visible: !root.hasArtwork || artImg.status !== Image.Ready
+            }
+
             Image {
                 id: artImg
                 anchors.fill: parent
                 source: (root.hasArtwork && root.trackId > 0) ? "image://artwork/" + root.trackId : ""
                 fillMode: Image.PreserveAspectCrop
-                visible: status === Image.Ready
-            }
-
-            Text {
-                anchors.centerIn: parent
-                text: "♫"
-                font.pixelSize: 36
-                color: "#3a2e4a"
-                visible: artImg.status !== Image.Ready
+                visible: root.hasArtwork && status === Image.Ready
             }
 
             Rectangle {

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic as Controls
+import AuradecApp
 
 Item {
     id: root
@@ -43,26 +44,32 @@ Item {
 
             // Artwork / play indicator
             Rectangle {
-                width: 36; height: 36
-                radius: 8
-                color: "#1a1520"
-                clip: true
+                width: 36; height: 36; radius: 8; clip: true
                 Layout.alignment: Qt.AlignVCenter
+                color: "transparent"
+
+                GradientPlaceholder {
+                    anchors.fill: parent; radius: 8
+                    seed: root.title; showNote: true
+                    visible: !root.playing && (!root.hasArtwork || listArtImg.status !== Image.Ready)
+                }
 
                 Image {
                     id: listArtImg
                     anchors.fill: parent
                     source: (root.hasArtwork && root.trackId > 0) ? "image://artwork/" + root.trackId : ""
                     fillMode: Image.PreserveAspectCrop
-                    visible: status === Image.Ready && !root.playing
+                    visible: !root.playing && root.hasArtwork && status === Image.Ready
                 }
 
-                Text {
-                    anchors.centerIn: parent
-                    text: root.playing ? "▶" : "♫"
-                    font.pixelSize: root.playing ? 14 : 16
-                    color: root.playing ? "#FF5C1A" : "#3a2e4a"
-                    visible: root.playing || listArtImg.status !== Image.Ready
+                Rectangle {
+                    anchors.fill: parent; radius: 8
+                    color: Qt.rgba(0,0,0,0.45)
+                    visible: root.playing
+                    Text {
+                        anchors.centerIn: parent; text: "▶"
+                        font.pixelSize: 14; color: "#FF5C1A"
+                    }
                 }
             }
 

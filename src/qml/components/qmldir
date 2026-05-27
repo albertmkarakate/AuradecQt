@@ -15,3 +15,4 @@ MetadataSection 1.0 MetadataSection.qml
 LyricsSection 1.0 LyricsSection.qml
 ArtworkSection 1.0 ArtworkSection.qml
 ArtistInfoPanel 1.0 ArtistInfoPanel.qml
+GradientPlaceholder 1.0 GradientPlaceholder.qml

@@ -1,4 +1,5 @@
 import QtQuick
+import AuradecApp
 
 Item {
     id: root
@@ -21,17 +22,17 @@ Item {
                 width: parent.width; height: width
                 radius: 12; color: "#1a1520"; clip: true
 
+                GradientPlaceholder {
+                    anchors.fill: parent; radius: 12
+                    seed: root.name; showNote: false
+                    visible: root.coverId <= 0 || coverImg.status !== Image.Ready
+                }
                 Image {
                     id: coverImg
                     anchors.fill: parent
                     source: root.coverId > 0 ? "image://artwork/" + root.coverId : ""
                     fillMode: Image.PreserveAspectCrop
-                    visible: status === Image.Ready
-                }
-                Text {
-                    anchors.centerIn: parent; text: "♫"
-                    font.pixelSize: 40; color: "#3a2e4a"
-                    visible: coverImg.status !== Image.Ready
+                    visible: root.coverId > 0 && status === Image.Ready
                 }
             }
 

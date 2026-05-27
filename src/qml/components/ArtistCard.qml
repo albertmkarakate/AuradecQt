@@ -1,4 +1,5 @@
 import QtQuick
+import AuradecApp
 
 Item {
     id: root
@@ -19,9 +20,15 @@ Item {
             spacing: 8
 
             Rectangle {
-                width: 72; height: 72; radius: 36; color: "#1a1520"
+                width: 72; height: 72; radius: 36
                 anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
+
+                GradientPlaceholder {
+                    anchors.fill: parent; radius: 36
+                    seed: root.name
+                    visible: root.imageUrl === "" || artistImg.status !== Image.Ready
+                }
 
                 Image {
                     id: artistImg
@@ -29,14 +36,6 @@ Item {
                     source: root.imageUrl || ""
                     fillMode: Image.PreserveAspectCrop
                     visible: root.imageUrl !== "" && status === Image.Ready
-                }
-
-                Text {
-                    anchors.centerIn: parent
-                    text: root.name ? root.name[0].toUpperCase() : "?"
-                    font.family: "Syne"; font.pixelSize: 28; font.weight: Font.Bold
-                    color: "#FF5C1A"
-                    visible: root.imageUrl === "" || artistImg.status !== Image.Ready
                 }
             }
 
